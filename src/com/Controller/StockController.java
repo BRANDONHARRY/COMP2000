@@ -3,6 +3,7 @@ package com.Controller;
 import com.Model.StockModel;
 import com.View.StockView;
 
+
 public class StockController {
     private StockModel model;
     private StockView view;
