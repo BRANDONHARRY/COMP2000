@@ -2,7 +2,6 @@ package com.View;
 
 import com.Controller.StockController;
 import com.Model.StockModel;
-
 import javax.swing.*;
 
 public class KioskView extends JFrame {
@@ -22,12 +21,12 @@ public class KioskView extends JFrame {
         StockModel model = retriveStock();
 
         StockModel test = new StockModel();
-        StockModel.dataManger dataTest = test.new dataManger();
-        dataTest.load();
 
+        StockModel.dataManager data = test.new dataManager();
+        data.load();
 
         StockView view = new StockView();
-        StockController controller = new StockController(model, view);
+        StockController controller = new StockController(view, model);
 
         controller.updateView();
 
