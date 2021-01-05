@@ -1,48 +1,45 @@
 package com.View;
-
-import com.Controller.StockController;
 import com.Model.StockModel;
+import com.Controller.StockController;
+import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 public class KioskView extends JFrame {
-    private JPanel mainPanel;
-    private JButton payBtn;
-    private JList stockList;
-    private JButton loginBtn;
+    public JPanel mainPanel;
+    public JButton payBtn;
+    public JList stockList;
+    public JButton loginBtn;
+    public JList cartList;
+    private JButton loadTest;
 
-    public static void main(String[] args){
-        JFrame frame = new JFrame("KioskView");
-        frame.setContentPane(new KioskView().mainPanel);
-        frame.setSize(700,500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+    public KioskView() {
+        loadTest.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DefaultListModel dlm = new DefaultListModel();
+                for(int i = 0; i <10; i++){
+                    dlm.addElement("test: "+i);
+                }
+                stockList.setModel(dlm);
 
-
-        StockModel model = retriveStock();
-
-        StockModel test = new StockModel();
-
-        StockModel.dataManager data = test.new dataManager();
-        data.load();
-
-        StockView view = new StockView();
-        StockController controller = new StockController(view, model);
-
-        controller.updateView();
-
-        controller.setBarcode("1111");
-
-        controller.updateView();
-        JLabel textLbl = new JLabel();
-        textLbl.setText(controller.getBarcode());
-
-    }
-
-    private static StockModel retriveStock(){
-        StockModel stockModel = new StockModel();
-        stockModel.setBarcode("21764");
-        stockModel.setName("Test");
-        stockModel.setPrice("£3.99");
-        return stockModel;
+//                DefaultListModel listModel = new DefaultListModel();
+//                StockModel load = new StockModel();
+//
+//                String[] loadArray = load.stockData;
+//
+//                for (int i = 0; i < 10; i++){
+//                    listModel.addElement(listModel);
+//                }
+//                stockList.setModel(listModel);
+            }
+        });
     }
 }
+
+
+
+
+
