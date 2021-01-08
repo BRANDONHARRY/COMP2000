@@ -18,9 +18,7 @@ public class KioskController {
         frame.setSize(1000, 700);
         frame.setVisible(true);
 
-        StockModel load = new StockModel();
-        StockModel.dataManager data = load.new dataManager();
+        StockModel data = new StockModel();
         data.load();
-
     }
 }
