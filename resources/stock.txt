@@ -1,5 +1,5 @@
 1|Dairy Milk Chocolate|£1.80|
-2|Strawberry Fanta|£4.00|
+2|Strawberry Fanta|£2.50|
 3|J20|£6.00|
 4|Bagels|£1.60|
 5|Pink Lady Apples|£1.60|

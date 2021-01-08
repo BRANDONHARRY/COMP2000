@@ -3,6 +3,7 @@ package com.Controller;
 
 import com.Model.StockModel;
 import com.View.KioskView;
+import com.View.PayView;
 import com.View.StockView;
 
 import javax.swing.*;
@@ -20,5 +21,14 @@ public class KioskController {
 
         StockModel data = new StockModel();
         data.load();
+    }
+    public static void openPayment(JList cartList){
+        JFrame frame = new JFrame("PaymentView");
+        frame.setContentPane(new PayView(cartList).mainPanel);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setSize(900, 600);
+        frame.setVisible(true);
+
+        PayView view = new PayView(cartList);
     }
 }

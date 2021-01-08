@@ -1,9 +1,12 @@
 package com.View;
+import com.Controller.KioskController;
 import com.Model.StockModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 
 public class KioskView extends JFrame {
@@ -16,6 +19,9 @@ public class KioskView extends JFrame {
     private JButton checkoutBtn;
     private JTextField barcodeTF;
     private JButton textBtn;
+    private JLabel stockLbl;
+    private JLabel priceLbl;
+    public Float total = 0.00f;
 
     public KioskView() {
         cartList.setModel(new DefaultListModel());
@@ -38,8 +44,14 @@ public class KioskView extends JFrame {
                 barcodeLoad();
             }
         });
+        payBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hideKiosk();
+                KioskController.openPayment(cartList);
+            }
+        });
     }
-
     public void displayStock(){
         StockModel newStock = new StockModel();
         newStock.load();
@@ -58,21 +70,39 @@ public class KioskView extends JFrame {
         DefaultListModel cartLM = (DefaultListModel) cartList.getModel();
         String selected = (String) stockList.getSelectedValue();
         cartLM.addElement(selected);
+        updatePrice(selected);
     }
 
     public void barcodeLoad(){
         DefaultListModel cartLM = (DefaultListModel) cartList.getModel();
+        DefaultListModel stockLM = (DefaultListModel) stockList.getModel();
 
         String text = barcodeTF.getText();
         Integer number = Integer.parseInt(text);
         number --;
-//        stockList.getModel(number);
 
-        cartLM.addElement(number);
+        String item = stockLM.elementAt(number).toString();
+        cartLM.addElement(item);
+        updatePrice(item);
+    }
+    public void updatePrice(String item){
+        String[] itemArray;
+        String priceString;
+        Float priceFloat;
+        String separator = "\\|";
+
+        itemArray = item.split(separator);
+
+        priceString = itemArray[2];
+        priceString = priceString.replace(" £", "");
+        priceFloat = Float.parseFloat(priceString);
+        total += priceFloat;
+
+        priceLbl.setText(String.format("£" + "%.2f",total));
+
+    }
+    public void hideKiosk(){
+//        this.dispose();
+//        mainPanel.hide();
     }
 }
-
-
-
-
-
