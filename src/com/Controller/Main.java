@@ -5,7 +5,8 @@ import com.View.KioskView;
 
 public class Main {
     public static void main(String[] args) {
-        KioskController.openKiosk();
+        KioskController kiosk = new KioskController();
+        KioskController.openKiosk(kiosk.kioskFrame, kiosk.paymentFrame);
     }
 }
 

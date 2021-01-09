@@ -3,6 +3,7 @@ import com.Controller.KioskController;
 import com.Model.StockModel;
 
 import javax.swing.*;
+import javax.tools.JavaFileManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +24,7 @@ public class KioskView extends JFrame {
     private JLabel priceLbl;
     public Float total = 0.00f;
 
-    public KioskView() {
+    public KioskView(JFrame kioskFrame, JFrame paymentFrame) {
         cartList.setModel(new DefaultListModel());
 
         loadTest.addActionListener(new ActionListener() {
@@ -47,8 +48,13 @@ public class KioskView extends JFrame {
         payBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                hideKiosk();
-                KioskController.openPayment(cartList);
+                KioskController.openPayment(cartList, total, kioskFrame, paymentFrame);
+            }
+        });
+        loginBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -100,9 +106,5 @@ public class KioskView extends JFrame {
 
         priceLbl.setText(String.format("£" + "%.2f",total));
 
-    }
-    public void hideKiosk(){
-//        this.dispose();
-//        mainPanel.hide();
     }
 }

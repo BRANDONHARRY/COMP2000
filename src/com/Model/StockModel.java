@@ -89,7 +89,6 @@ public class StockModel {
 
                 stock.add(model);
                 getStockData();
-
             }
             scanner.close();
             System.out.println("File successfully loaded");
