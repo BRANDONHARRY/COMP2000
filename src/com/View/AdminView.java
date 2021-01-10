@@ -4,8 +4,13 @@ import com.Controller.KioskController;
 import com.Model.StockModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class AdminView {
     public JList adminStockList;
@@ -15,9 +20,9 @@ public class AdminView {
     public JButton addBtn;
     private JButton editBtn;
     private JButton removeBtn;
+    private JButton textBtn;
 
     public AdminView(JFrame adminFrame, JList stockList) {
-//        tempStockList = stockList;
         adminStockList.setModel(new DefaultListModel());
         loadFile();
 
@@ -45,6 +50,12 @@ public class AdminView {
 
             }
         });
+        textBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openFile();
+            }
+        });
     }
     private void loadFile(){
         StockModel newStock = new StockModel();
@@ -58,5 +69,16 @@ public class AdminView {
             listModel.addElement(tempArray[i].getBarcode() +" | " + tempArray[i].getName() +" | " + tempArray[i].getPrice());
         }
         adminStockList.setModel(listModel);
+    }
+    private void openFile(){
+        String filePath = "resources\\stock.txt";
+
+        try {
+            File file = new File(filePath);
+            Desktop.getDesktop().open(file);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
