@@ -15,6 +15,7 @@ public class StockModel {
     public String barcode;
     public String name;
     public String price;
+    public Integer stockLevel;
     public String[] stockData;
     public final ArrayList<StockModel> stock = new ArrayList<StockModel>();
 
@@ -38,7 +39,10 @@ public class StockModel {
         return  price;
 //end of modifiable zone(JavaCode)........E/48f6b2bc-f722-419c-8a3c-31740613dbdb
     }
-
+    public Integer getStockLevel(){
+        System.out.println(stockLevel);
+        return stockLevel;
+    }
 
     public void setBarcode(String barcode) {
 //begin of modifiable zone(JavaCode)......C/f12bc700-f207-4313-aaf8-7286ae90332a
@@ -59,6 +63,9 @@ public class StockModel {
 //        price = stockData[2];
         this.price = price;
 //end of modifiable zone(JavaCode)........E/70a7a3c8-ce12-4239-9998-fb579837dcb5
+    }
+    public void setStockLevel(Integer stockLevel){
+        this.stockLevel = stockLevel;
     }
     public String[] getStockData(){
         System.out.println(Arrays.toString(stockData));
@@ -86,6 +93,7 @@ public class StockModel {
                 model.setBarcode(stockData[0]);
                 model.setName(stockData[1]);
                 model.setPrice(stockData[2]);
+                model.setStockLevel(Integer.parseInt(stockData[3]));
 
                 stock.add(model);
                 getStockData();

@@ -17,7 +17,7 @@ public class StockController {
 
     public void updateView() {
 //begin of modifiable zone(JavaCode)......C/f7854ace-50dc-432f-8c21-bacfc1224a77
-        view.printStock(model.getBarcode(), model.getName(), model.getPrice());
+        view.printStock(model.getBarcode(), model.getName(), model.getPrice(), model.getStockLevel());
 //end of modifiable zone(JavaCode)........E/f7854ace-50dc-432f-8c21-bacfc1224a77
     }
 }

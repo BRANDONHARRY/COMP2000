@@ -66,7 +66,7 @@ public class AdminView {
         DefaultListModel listModel = new DefaultListModel();
         for (int i = 0; i < tempArray.length; i++){
 
-            listModel.addElement(tempArray[i].getBarcode() +" | " + tempArray[i].getName() +" | " + tempArray[i].getPrice());
+            listModel.addElement(tempArray[i].getBarcode() +" | " + tempArray[i].getName() + " | " + tempArray[i].getPrice() + " | " + tempArray[i].getStockLevel());
         }
         adminStockList.setModel(listModel);
     }
