@@ -25,5 +25,4 @@ public class AdminModel {
 
 //end of modifiable zone(JavaCode)........E/54e2d3b0-e1f1-45cf-b52a-42baf46e884f
     }
-
 }

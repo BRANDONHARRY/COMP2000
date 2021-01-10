@@ -16,7 +16,6 @@ public class KioskView extends JFrame {
     public JList stockList;
     public JButton loginBtn;
     public JList cartList;
-    private JButton loadTest;
     private JButton checkoutBtn;
     private JTextField barcodeTF;
     private JButton textBtn;
@@ -26,13 +25,8 @@ public class KioskView extends JFrame {
 
     public KioskView(JFrame kioskFrame, JFrame paymentFrame) {
         cartList.setModel(new DefaultListModel());
+        displayStock();
 
-        loadTest.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayStock();
-            }
-        });
         checkoutBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,9 +48,11 @@ public class KioskView extends JFrame {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                KioskController.openAdmin(kioskFrame, stockList);
+//                login();
             }
         });
+
     }
     public void displayStock(){
         StockModel newStock = new StockModel();
@@ -105,6 +101,9 @@ public class KioskView extends JFrame {
         total += priceFloat;
 
         priceLbl.setText(String.format("£" + "%.2f",total));
+    }
+    public void login(){
+
 
     }
 }

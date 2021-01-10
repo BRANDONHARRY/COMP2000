@@ -2,6 +2,7 @@ package com.Controller;
 
 
 import com.Model.StockModel;
+import com.View.AdminView;
 import com.View.KioskView;
 import com.View.PayView;
 import com.View.StockView;
@@ -14,14 +15,15 @@ import java.util.Vector;
 public class KioskController {
     public JFrame kioskFrame;
     public JFrame paymentFrame;
+//    public JFrame adminFrame;
 
-    public static void openKiosk(JFrame kioskFrame, JFrame paymentFrame){
-        kioskFrame = new JFrame("KioskView");
-        kioskFrame.setContentPane(new KioskView(kioskFrame, paymentFrame).mainPanel);
+    public static void openKiosk(JFrame oldFrame){
+        JFrame kioskFrame = new JFrame("KioskView");
+        kioskFrame.setContentPane(new KioskView(kioskFrame, oldFrame).mainPanel);
         kioskFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         kioskFrame.setSize(1000, 700);
         kioskFrame.setVisible(true);
-        paymentFrame.setVisible(false);
+        oldFrame.setVisible(false);
 
         StockModel data = new StockModel();
         data.load();
@@ -34,7 +36,12 @@ public class KioskController {
         paymentFrame.setVisible(true);
         kioskFrame.setVisible(false);
     }
-    public static void openLogin(){
-
+    public static void openAdmin(JFrame kioskFrame, JList stockList){
+        JFrame adminFrame = new JFrame("Admin");
+        adminFrame.setContentPane(new AdminView(adminFrame, stockList).mainPanel);
+        adminFrame.setSize(900,600);
+        adminFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        adminFrame.setVisible(true);
+        kioskFrame.setVisible(false);
     }
 }
