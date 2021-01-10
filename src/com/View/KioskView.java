@@ -8,6 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class KioskView extends JFrame {
     public JPanel mainPanel;
@@ -22,6 +25,8 @@ public class KioskView extends JFrame {
     private JLabel priceLbl;
     public Float total = 0.00f;
     public JOptionPane loginOP;
+    public String username;
+    public String password;
 
     public KioskView(JFrame kioskFrame, JFrame paymentFrame) {
         cartList.setModel(new DefaultListModel());
@@ -105,18 +110,20 @@ public class KioskView extends JFrame {
         JFrame popUpFrame = new JFrame();
         popUpFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        JTextField username = new JTextField();
-        JPasswordField password = new JPasswordField();
+        JTextField usernameTf = new JTextField();
+        JPasswordField passwordTf = new JPasswordField();
+
+        accounts();
 
         Object[] message = {
-                "Username: ", username,
-                "Password: ", password
+                "Username: ", usernameTf,
+                "Password: ", passwordTf
         };
 
         int option = loginOP.showConfirmDialog(popUpFrame, message, "Login", JOptionPane.OK_CANCEL_OPTION);
 
         if(option == loginOP.OK_OPTION){
-            if(username.getText().equals("admin") && password.getText().equals("pass")){
+            if(usernameTf.getText().equals(username) && passwordTf.getText().equals(password)){
                 loginOP.showMessageDialog(popUpFrame, "Login Correct.", "Login", JOptionPane.INFORMATION_MESSAGE);
                 KioskController.openAdmin(kioskFrame, stockList);
             }
@@ -126,6 +133,20 @@ public class KioskView extends JFrame {
         }
         else{
             loginOP.showMessageDialog(popUpFrame, "Login failed.", "Login", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    public void accounts(){
+        String filePath = "resources\\accounts.txt";
+
+        try {
+            File file = new File(filePath);
+            Scanner scanner = new Scanner(file);
+            username = scanner.nextLine();
+            password = scanner.nextLine();
+            scanner.close();
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
         }
     }
 }

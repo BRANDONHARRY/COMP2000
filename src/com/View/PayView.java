@@ -14,6 +14,7 @@ import java.util.Date;
 public class PayView {
     public JPanel mainPanel;
     public JList paymentLst;
+    public JList tempCartList;
     private JLabel paymentLbl;
     private JButton returnBtn;
     private JLabel totalLbl;
@@ -21,7 +22,6 @@ public class PayView {
     private JButton cardBtn;
     private JTextArea receiptTextArea;
     private JButton receiptBtn;
-    public JList tempCartList;
     public JOptionPane popUp;
 
     public PayView(JList cartList, Float tempTotal, JFrame kioskFrame, JFrame paymentFrame){
