@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-
 public class KioskView extends JFrame {
     public JPanel mainPanel;
     public JButton payBtn;
@@ -22,6 +21,7 @@ public class KioskView extends JFrame {
     private JLabel stockLbl;
     private JLabel priceLbl;
     public Float total = 0.00f;
+    public JOptionPane loginOP;
 
     public KioskView(JFrame kioskFrame, JFrame paymentFrame) {
         cartList.setModel(new DefaultListModel());
@@ -48,8 +48,7 @@ public class KioskView extends JFrame {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                KioskController.openAdmin(kioskFrame, stockList);
-//                login();
+                login(kioskFrame, stockList);
             }
         });
 
@@ -102,8 +101,31 @@ public class KioskView extends JFrame {
 
         priceLbl.setText(String.format("£" + "%.2f",total));
     }
-    public void login(){
+    public void login(JFrame kioskFrame, JList stockList){
+        JFrame popUpFrame = new JFrame();
+        popUpFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
+        JTextField username = new JTextField();
+        JPasswordField password = new JPasswordField();
 
+        Object[] message = {
+                "Username: ", username,
+                "Password: ", password
+        };
+
+        int option = loginOP.showConfirmDialog(popUpFrame, message, "Login", JOptionPane.OK_CANCEL_OPTION);
+
+        if(option == loginOP.OK_OPTION){
+            if(username.getText().equals("admin") && password.getText().equals("pass")){
+                loginOP.showMessageDialog(popUpFrame, "Login Correct.", "Login", JOptionPane.INFORMATION_MESSAGE);
+                KioskController.openAdmin(kioskFrame, stockList);
+            }
+            else {
+                loginOP.showMessageDialog(popUpFrame, "Login failed.", "Login", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else{
+            loginOP.showMessageDialog(popUpFrame, "Login failed.", "Login", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }
