@@ -13,9 +13,7 @@ import java.util.Vector;
 
 
 public class KioskController {
-    public JFrame kioskFrame;
-    public JFrame paymentFrame;
-//    public JFrame adminFrame;
+    public JFrame oldFrame;
 
     public static void openKiosk(JFrame oldFrame){
         JFrame kioskFrame = new JFrame("KioskView");

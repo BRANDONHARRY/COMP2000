@@ -21,26 +21,22 @@ public class StockModel {
 
     public String getBarcode() {
 //begin of modifiable zone(JavaCode)......C/798b33b8-c813-48cd-9104-e7e706278d11
-        System.out.println(barcode);
         return barcode;
 //end of modifiable zone(JavaCode)........E/798b33b8-c813-48cd-9104-e7e706278d11
     }
 
     public String getName() {
 //begin of modifiable zone(JavaCode)......C/1b669393-22fc-449b-824c-6230b26724c4
-        System.out.println(name);
         return name;
 //end of modifiable zone(JavaCode)........E/1b669393-22fc-449b-824c-6230b26724c4
     }
 
     public String  getPrice() {
 //begin of modifiable zone(JavaCode)......C/48f6b2bc-f722-419c-8a3c-31740613dbdb
-        System.out.println(price);
         return  price;
 //end of modifiable zone(JavaCode)........E/48f6b2bc-f722-419c-8a3c-31740613dbdb
     }
     public Integer getStockLevel(){
-        System.out.println(stockLevel);
         return stockLevel;
     }
 
@@ -68,7 +64,6 @@ public class StockModel {
         this.stockLevel = stockLevel;
     }
     public String[] getStockData(){
-        System.out.println(Arrays.toString(stockData));
         return stockData;
     }
 
@@ -113,6 +108,9 @@ public class StockModel {
             return null;
         }
         return stock.get(index);
+    }
+    public void removeProduct(StockModel oldProduct){
+        stock.remove(oldProduct);
     }
 //end of modifiable zone(JavaCode)........E/669615c8-1d1e-498a-96c7-3da088973940
 }

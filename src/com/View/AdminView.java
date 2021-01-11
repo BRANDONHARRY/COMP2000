@@ -89,6 +89,7 @@ public class AdminView {
         try {
             File file = new File(filePath);
             Desktop.getDesktop().open(file);
+            System.out.println("File Opened");
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -113,6 +114,7 @@ public class AdminView {
             if(barcodeTF != null && nameTF != null && priceTF != null && stockLevelTF != null){
                 addProduct(barcodeTF.getText(), nameTF.getText(), priceTF.getText(), stockLevelTF.getText());
                 loadFile();
+                System.out.println("New product added");
             }
             else{
                 popUp.showMessageDialog(popUpFrame, "Please enter details into all fields.", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -163,20 +165,29 @@ public class AdminView {
                 writer.write(data);
             }
             writer.close();
-            System.out.println("New product added");
+            System.out.println("Saved to file");
         }
         catch(IOException e){
             e.printStackTrace();
         }
     }
     public void editProductPopup(){
+        int index = adminStockList.getSelectedIndex();
+
+        StockModel loadStock = new StockModel();
+        loadStock.load();
+
+        StockModel tempNames = loadStock.getProductAt(index);
 
         JTextField barcodeTF = new JTextField();
         JTextField nameTF = new JTextField();
         JTextField priceTF = new JTextField();
         JTextField stockLevelTF = new JTextField();
 
-
+        barcodeTF.setText(tempNames.getBarcode());
+        nameTF.setText(tempNames.getName());
+        priceTF.setText(tempNames.getPrice());
+        stockLevelTF.setText(tempNames.getStockLevel().toString());
 
         Object[] message = {
                 "Barcode: ", barcodeTF,
@@ -190,8 +201,8 @@ public class AdminView {
         if(option == popUp.OK_OPTION){
             if(barcodeTF != null && nameTF != null && priceTF != null && stockLevelTF != null){
                 editProduct(barcodeTF.getText(), nameTF.getText(), priceTF.getText(), stockLevelTF.getText());
-
                 popUp.showMessageDialog(popUpFrame, "Edit Accepted", "Edit", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println("Edit accepted");
             }
             else{
                 popUp.showMessageDialog(popUpFrame, "Please enter details into all fields.", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -202,11 +213,37 @@ public class AdminView {
         }
     }
     public void removeProductPopup(){
-        int option = popUp.showConfirmDialog(popUpFrame, "Are you sure you want to remove selected product", "Delete", JOptionPane.INFORMATION_MESSAGE);
+        int index = adminStockList.getSelectedIndex();
+
+        StockModel loadStock = new StockModel();
+        loadStock.load();
+
+        StockModel tempNames = loadStock.getProductAt(index);
+
+        JLabel barcodeLbl = new JLabel();
+        JLabel nameLbl = new JLabel();
+        JLabel priceLbl = new JLabel();
+        JLabel stockLevelLbl = new JLabel();
+
+        barcodeLbl.setText(tempNames.getBarcode());
+        nameLbl.setText(tempNames.getName());
+        priceLbl.setText(tempNames.getPrice());
+        stockLevelLbl.setText(tempNames.getStockLevel().toString());
+
+        Object[] message = {
+                "Are you sure you want to remove this product: ",
+                "Barcode: ", barcodeLbl,
+                "Product name: ", nameLbl,
+                "Price: £", priceLbl,
+                "Stock level: ", stockLevelLbl
+        };
+
+        int option = popUp.showConfirmDialog(popUpFrame, message, "Delete", JOptionPane.INFORMATION_MESSAGE);
 
         if(option == popUp.OK_OPTION){
-//            DO STUFF
-            popUp.showMessageDialog(popUpFrame, "Deletion Completed", "Error", JOptionPane.INFORMATION_MESSAGE);
+            deleteProduct();
+            popUp.showMessageDialog(popUpFrame, "Deletion Completed", "Accepted", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("Deleted item");
         }
         else{
             popUp.showMessageDialog(popUpFrame, "Deletion Canceled", "Deletion", JOptionPane.INFORMATION_MESSAGE);
@@ -223,7 +260,6 @@ public class AdminView {
     }
     public void editProduct(String barcode, String name, String price, String stockLevel){
         int index = adminStockList.getSelectedIndex();
-
         StockModel loadStock = new StockModel();
         loadStock.load();
 
@@ -233,6 +269,17 @@ public class AdminView {
         editStock.setName(name);
         editStock.setPrice(price);
         editStock.setStockLevel(Integer.parseInt(stockLevel));
+
+        saveFile(loadStock);
+    }
+    public void deleteProduct(){
+        int index = adminStockList.getSelectedIndex();
+        StockModel loadStock = new StockModel();
+        loadStock.load();
+
+        StockModel deleteStock = loadStock.getProductAt(index);
+
+        loadStock.removeProduct(deleteStock);
 
         saveFile(loadStock);
     }
