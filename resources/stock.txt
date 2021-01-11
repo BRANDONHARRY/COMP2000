@@ -1,10 +1,11 @@
-1|Dairy Milk Chocolate|£1.80|
-2|Strawberry Fanta|£4.00|
-3|J20|£6.00|
-4|Bagels|£1.60|
-5|Pink Lady Apples|£1.60|
-6|Watermelon|£2.99|
-7|Grapes|£0.41
-8|Limes|£1.35|
-9|Blueberries|£2.00|
-10|Mangoes|£2.00|
+1|Dairy Milk Chocolate|£1.80|352|
+2|Strawberry Fanta|£4.00|62|
+3|J20|£6.00|25|
+4|Bagels|£1.60|262|
+5|Pink Lady Apples|£1.60|616|
+6|Watermelon|£2.99|213|
+7|Grapes|£0.41|532|
+8|Limes|£1.35|151|
+9|Blueberries|£2.00|261|
+10|Mangoes|£2.00|152|
+11|Apps|99.32|1|

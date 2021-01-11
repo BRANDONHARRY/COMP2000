@@ -105,6 +105,9 @@ public class StockModel {
             e.printStackTrace();
         }
     }
+    public void addProduct(StockModel newProduct){
+        stock.add(newProduct);
+    }
 //end of modifiable zone(JavaCode)........E/669615c8-1d1e-498a-96c7-3da088973940
 }
 

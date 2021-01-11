@@ -8,10 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.ArrayList;
 
 public class AdminView {
     public JList adminStockList;
@@ -21,13 +20,17 @@ public class AdminView {
     public JButton addBtn;
     private JButton editBtn;
     private JButton removeBtn;
-    private JButton textBtn;
+    private JButton openBtn;
+    private JButton updateBtn;
     public String filePath = "resources\\stock.txt";
     public String separator = "\\|";
     public JOptionPane popUp;
+    public JFrame popUpFrame = new JFrame();
+
 
     public AdminView(JFrame adminFrame, JList stockList) {
         adminStockList.setModel(new DefaultListModel());
+        popUpFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         loadFile();
 
@@ -40,25 +43,32 @@ public class AdminView {
         addBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openSave();
+                addProductPopup();
             }
         });
         editBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                editProductPopup();
             }
         });
         removeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                removeProductPopup();
             }
         });
-        textBtn.addActionListener(new ActionListener() {
+        openBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 openFile();
+                textUpdate();
+            }
+        });
+        updateBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadFile();
             }
         });
     }
@@ -84,10 +94,7 @@ public class AdminView {
             e.printStackTrace();
         }
     }
-    public void openSave(){
-        JFrame popUpFrame = new JFrame();
-        popUpFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
+    public void addProductPopup(){
         JTextField barcodeTF = new JTextField();
         JTextField nameTF = new JTextField();
         JTextField priceTF = new JTextField();
@@ -104,52 +111,53 @@ public class AdminView {
 
         if(option == popUp.OK_OPTION){
             if(barcodeTF != null && nameTF != null && priceTF != null && stockLevelTF != null){
-                saveFile(barcodeTF.getText(), nameTF.getText(), priceTF.getText(), stockLevelTF.getText());
+                addProduct(barcodeTF.getText(), nameTF.getText(), priceTF.getText(), stockLevelTF.getText());
+                loadFile();
             }
             else{
                 popUp.showMessageDialog(popUpFrame, "Please enter details into all fields.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-
-
+        else{
+            popUp.showMessageDialog(popUpFrame, "No product added" , "Canceled", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
-    public void saveFile(String barcode, String name, String price, String stockLevel){
-        String barcodeSave = barcode;
-        String nameSave = name;
-        String priceSave = price;
-        String stockLevelSave = stockLevel;
+    public void addProduct(String barcode, String name, String price, String stockLevel){
+        StockModel newProduct = new StockModel();
+        newProduct.load();
 
-        StockModel newStock = new StockModel();
-        newStock.load();
-        StockModel[] tempArray = new StockModel[0];
-        tempArray = newStock.stock.toArray(tempArray);
+        newProduct.setBarcode(barcode);
+        newProduct.setName(name);
+        newProduct.setPrice(price);
+        newProduct.setStockLevel(Integer.parseInt(stockLevel));
 
-        newStock.setBarcode(barcodeSave);
-        newStock.setName(nameSave);
-        newStock.setPrice(priceSave);
-        newStock.setStockLevel(Integer.parseInt(stockLevel));
-
+        newProduct.addProduct(newProduct);
+        saveFile(newProduct);
+    }
+    public void saveFile(StockModel newProduct){
+        ArrayList<StockModel> tempStock = new ArrayList<StockModel>();
+        tempStock = newProduct.stock;
 
         try{
             FileWriter writer = new FileWriter(filePath);
 
-            for(int i = 0; i < tempArray.length; i++){
+            for(int i = 0; i < tempStock.size(); i++){
                 String data = "";
 
                 if (i > 0){
                     data += "\n";
                 }
 
-                String barcodeTemp = newStock.getBarcode();
+                String barcodeTemp = tempStock.get(i).getBarcode();
                 data += barcodeTemp + "|";
 
-                String nameTemp = newStock.getName();
+                String nameTemp = tempStock.get(i).getName();
                 data += nameTemp + "|";
 
-                String priceTemp = newStock.getPrice();
+                String priceTemp = tempStock.get(i).getPrice();
                 data += priceTemp + "|";
 
-                String stockLevelTemp = newStock.getStockLevel().toString();
+                String stockLevelTemp = tempStock.get(i).getStockLevel().toString();
                 data += stockLevelTemp + "|";
 
                 writer.write(data);
@@ -159,6 +167,57 @@ public class AdminView {
         }
         catch(IOException e){
             e.printStackTrace();
+        }
+    }
+    public void editProductPopup(){
+        JTextField barcodeTF = new JTextField();
+        JTextField nameTF = new JTextField();
+        JTextField priceTF = new JTextField();
+        JTextField stockLevelTF = new JTextField();
+
+//        barcodeTF = adminStockList.getSelectedValue().toString();
+
+        Object[] message = {
+                "Barcode: ", barcodeTF,
+                "Product name: ", nameTF,
+                "Price: £", priceTF,
+                "Stock level: ", stockLevelTF
+        };
+
+        int option = popUp.showConfirmDialog(popUpFrame, message, "Edit", JOptionPane.INFORMATION_MESSAGE);
+
+        if(option == popUp.OK_OPTION){
+            if(barcodeTF != null && nameTF != null && priceTF != null && stockLevelTF != null){
+//                DO STUFF HERE
+//                loadFile();
+                popUp.showMessageDialog(popUpFrame, "Edit Accepted", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                popUp.showMessageDialog(popUpFrame, "Please enter details into all fields.", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else{
+            popUp.showMessageDialog(popUpFrame, "No product edited" , "Canceled", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    public void removeProductPopup(){
+        int option = popUp.showConfirmDialog(popUpFrame, "Are you sure you want to remove selected product", "Delete", JOptionPane.INFORMATION_MESSAGE);
+
+        if(option == popUp.OK_OPTION){
+//            DO STUFF
+            popUp.showMessageDialog(popUpFrame, "Deletion Completed", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            popUp.showMessageDialog(popUpFrame, "Deletion Canceled", "Deletion", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    public void textUpdate(){
+        int option = popUp.showConfirmDialog(popUpFrame, "Update List", "Update", JOptionPane.INFORMATION_MESSAGE);
+        if(option == popUp.OK_OPTION){
+            loadFile();
+        }
+        else{
+            loadFile();
         }
     }
 }
