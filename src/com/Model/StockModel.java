@@ -108,6 +108,12 @@ public class StockModel {
     public void addProduct(StockModel newProduct){
         stock.add(newProduct);
     }
+    public StockModel getProductAt(int index){
+        if(index >= stock.size()){
+            return null;
+        }
+        return stock.get(index);
+    }
 //end of modifiable zone(JavaCode)........E/669615c8-1d1e-498a-96c7-3da088973940
 }
 

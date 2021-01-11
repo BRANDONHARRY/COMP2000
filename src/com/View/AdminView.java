@@ -134,9 +134,9 @@ public class AdminView {
         newProduct.addProduct(newProduct);
         saveFile(newProduct);
     }
-    public void saveFile(StockModel newProduct){
+    public void saveFile(StockModel tempProduct){
         ArrayList<StockModel> tempStock = new ArrayList<StockModel>();
-        tempStock = newProduct.stock;
+        tempStock = tempProduct.stock;
 
         try{
             FileWriter writer = new FileWriter(filePath);
@@ -170,12 +170,13 @@ public class AdminView {
         }
     }
     public void editProductPopup(){
+
         JTextField barcodeTF = new JTextField();
         JTextField nameTF = new JTextField();
         JTextField priceTF = new JTextField();
         JTextField stockLevelTF = new JTextField();
 
-//        barcodeTF = adminStockList.getSelectedValue().toString();
+
 
         Object[] message = {
                 "Barcode: ", barcodeTF,
@@ -188,9 +189,9 @@ public class AdminView {
 
         if(option == popUp.OK_OPTION){
             if(barcodeTF != null && nameTF != null && priceTF != null && stockLevelTF != null){
-//                DO STUFF HERE
-//                loadFile();
-                popUp.showMessageDialog(popUpFrame, "Edit Accepted", "Error", JOptionPane.INFORMATION_MESSAGE);
+                editProduct(barcodeTF.getText(), nameTF.getText(), priceTF.getText(), stockLevelTF.getText());
+
+                popUp.showMessageDialog(popUpFrame, "Edit Accepted", "Edit", JOptionPane.INFORMATION_MESSAGE);
             }
             else{
                 popUp.showMessageDialog(popUpFrame, "Please enter details into all fields.", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -219,5 +220,20 @@ public class AdminView {
         else{
             loadFile();
         }
+    }
+    public void editProduct(String barcode, String name, String price, String stockLevel){
+        int index = adminStockList.getSelectedIndex();
+
+        StockModel loadStock = new StockModel();
+        loadStock.load();
+
+        StockModel editStock = loadStock.getProductAt(index);
+
+        editStock.setBarcode(barcode);
+        editStock.setName(name);
+        editStock.setPrice(price);
+        editStock.setStockLevel(Integer.parseInt(stockLevel));
+
+        saveFile(loadStock);
     }
 }
