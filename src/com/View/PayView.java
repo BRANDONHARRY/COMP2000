@@ -1,14 +1,19 @@
 package com.View;
 
 import com.Controller.KioskController;
+import com.Model.StockModel;
 import com.View.KioskView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class PayView {
@@ -23,6 +28,8 @@ public class PayView {
     private JTextArea receiptTextArea;
     private JButton receiptBtn;
     public JOptionPane popUp;
+    public String filePath = "resources\\stock.txt";
+    public JFrame test;
 
     public PayView(JList cartList, Float tempTotal, JFrame kioskFrame, JFrame paymentFrame){
         tempCartList = cartList;
@@ -62,7 +69,6 @@ public class PayView {
         });
     }
     private void createUIComponents() {
-        // TODO: place custom component creation code here
         paymentLst = new JList(tempCartList.getModel());
     }
     public void cashCheck(String date, String time){
@@ -91,6 +97,7 @@ public class PayView {
                 "Total: " + totalLbl.getText() + "\n" +
                 "Cash given: £" + tempCash + "\n" +
                 "Change: " + (String.format("£" + "%.2f",change)));
+        updateStock();
     }
     public void cardCheck(String date, String time){
         JFrame popUpFrame = new JFrame();
@@ -106,6 +113,7 @@ public class PayView {
                     "Items: " + paymentLst.getModel() + "\n" +
                     "Total: " + totalLbl.getText() + "\n" +
                     "Card accepted and charged.");
+            updateStock();
         }
         else{
             popUp.showMessageDialog(popUpFrame, "Card Declined.", "Bank" , JOptionPane.INFORMATION_MESSAGE);
@@ -117,5 +125,62 @@ public class PayView {
         popUpFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         popUp.showMessageDialog(popUpFrame,receiptTextArea.getText(), "Receipt", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public void updateStock(){
+        StockModel stockArray = new StockModel();
+
+
+        DefaultListModel paymentLM = (DefaultListModel) paymentLst.getModel();
+
+        for(int i = 0; i < paymentLM.size(); i++){
+            String paymentGetElement = (String) paymentLM.getElementAt(i);
+            String[] splitArray = paymentGetElement.split("\\|");
+            String barcodeFromArray = splitArray[0];
+
+            for(int j = 0; j < stockArray.stock.size(); j++){
+                StockModel currentModel = stockArray.stock.get(j);
+                String getBarcode = currentModel.getBarcode();
+
+                if (getBarcode.equals(barcodeFromArray)){
+                    currentModel.setStockLevel(currentModel.getStockLevel()-1);
+                    save(currentModel);
+                }
+            }
+        }
+    }
+    public void save(StockModel tempProduct){
+        ArrayList<StockModel> tempStock = new ArrayList<StockModel>();
+        tempStock = tempProduct.stock;
+
+        try{
+            FileWriter writer = new FileWriter(filePath);
+
+            for(int i = 0; i < tempStock.size(); i++){
+                String data = "";
+
+                if (i > 0){
+                    data += "\n";
+                }
+
+                String barcodeTemp = tempStock.get(i).getBarcode();
+                data += barcodeTemp + "|";
+
+                String nameTemp = tempStock.get(i).getName();
+                data += nameTemp + "|";
+
+                String priceTemp = tempStock.get(i).getPrice();
+                data += priceTemp + "|";
+
+                String stockLevelTemp = tempStock.get(i).getStockLevel().toString();
+                data += stockLevelTemp + "|";
+
+                writer.write(data);
+            }
+            writer.close();
+            System.out.println("Saved to file");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
     }
 }

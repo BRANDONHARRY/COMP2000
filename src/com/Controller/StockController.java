@@ -20,4 +20,7 @@ public class StockController {
         view.printStock(model.getBarcode(), model.getName(), model.getPrice(), model.getStockLevel());
 //end of modifiable zone(JavaCode)........E/f7854ace-50dc-432f-8c21-bacfc1224a77
     }
+    public void updateStock(){
+
+    }
 }

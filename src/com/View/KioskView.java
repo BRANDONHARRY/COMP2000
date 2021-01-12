@@ -26,6 +26,9 @@ public class KioskView extends JFrame {
     public String filePath = "resources\\stock.txt";
 
     public KioskView(JFrame kioskFrame, JFrame paymentFrame) {
+        JList test = new JList();
+        stockList.setModel(test.getModel());
+
         cartList.setModel(new DefaultListModel());
         displayStock();
 
@@ -53,7 +56,6 @@ public class KioskView extends JFrame {
                 login(kioskFrame, stockList);
             }
         });
-
     }
     public void displayStock(){
         StockModel newStock = new StockModel();
@@ -64,7 +66,7 @@ public class KioskView extends JFrame {
         DefaultListModel listModel = new DefaultListModel();
         for (int i = 0; i < tempArray.length; i++){
 
-            listModel.addElement(tempArray[i].getBarcode() +" | " + tempArray[i].getName() +" | " + tempArray[i].getPrice() + " | " + tempArray[i].getStockLevel());
+            listModel.addElement(tempArray[i].getBarcode() +"| " + tempArray[i].getName() +" | " + tempArray[i].getPrice() + " | " + tempArray[i].getStockLevel());
         }
         stockList.setModel(listModel);
     }

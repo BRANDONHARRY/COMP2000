@@ -21,6 +21,7 @@ public class AdminView {
     private JButton editBtn;
     private JButton removeBtn;
     private JButton openBtn;
+    private JButton addAdminBtn;
     private JButton updateBtn;
     public String filePath = "resources\\stock.txt";
     public String separator = "\\|";
