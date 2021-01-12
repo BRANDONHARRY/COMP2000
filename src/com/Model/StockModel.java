@@ -19,6 +19,7 @@ public class StockModel {
     public String[] stockData;
     public final ArrayList<StockModel> stock = new ArrayList<StockModel>();
 
+//    Getters
     public String getBarcode() {
 //begin of modifiable zone(JavaCode)......C/798b33b8-c813-48cd-9104-e7e706278d11
         return barcode;
@@ -40,23 +41,21 @@ public class StockModel {
         return stockLevel;
     }
 
+//    Setters
     public void setBarcode(String barcode) {
 //begin of modifiable zone(JavaCode)......C/f12bc700-f207-4313-aaf8-7286ae90332a
-//        barcode = stockData[0];
         this.barcode = barcode;
 //end of modifiable zone(JavaCode)........E/f12bc700-f207-4313-aaf8-7286ae90332a
     }
 
     public void setName(String name) {
 //begin of modifiable zone(JavaCode)......C/c3c907fe-36f9-4de0-aa96-a30283ab52e4
-//        name = stockData[1];
         this.name = name;
 //end of modifiable zone(JavaCode)........E/c3c907fe-36f9-4de0-aa96-a30283ab52e4
     }
 
     public void setPrice(String price) {
 //begin of modifiable zone(JavaCode)......C/70a7a3c8-ce12-4239-9998-fb579837dcb5
-//        price = stockData[2];
         this.price = price;
 //end of modifiable zone(JavaCode)........E/70a7a3c8-ce12-4239-9998-fb579837dcb5
     }
@@ -66,10 +65,9 @@ public class StockModel {
     public String[] getStockData(){
         return stockData;
     }
-
-
 //begin of modifiable zone(JavaCode)......C/669615c8-1d1e-498a-96c7-3da088973940
 
+//    Load the file
     public void load(){
         String filePath = "resources\\stock.txt";
         String separator = "\\|";
@@ -100,15 +98,20 @@ public class StockModel {
             e.printStackTrace();
         }
     }
+//    To add a new product
     public void addProduct(StockModel newProduct){
         stock.add(newProduct);
     }
+
+//  Get a product at a specified index
     public StockModel getProductAt(int index){
         if(index >= stock.size()){
             return null;
         }
         return stock.get(index);
     }
+
+//    For removing a selected product
     public void removeProduct(StockModel oldProduct){
         stock.remove(oldProduct);
     }

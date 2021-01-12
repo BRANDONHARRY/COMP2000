@@ -1,4 +1,4 @@
-1|Dairy Milk Chocolate|£1.80|352|
+1|Dairy Milk Chocolate|£1.80|350|
 2|Strawberry Fanta|£4.00|62|
 3|J20|£6.00|25|
 4|Bagels|£1.60|262|

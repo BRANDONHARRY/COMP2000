@@ -16,6 +16,7 @@ public class KioskController {
     public JFrame oldFrame;
 
     public static void openKiosk(JFrame oldFrame){
+//        Builds kiosk
         JFrame kioskFrame = new JFrame("KioskView");
         kioskFrame.setContentPane(new KioskView(kioskFrame, oldFrame).mainPanel);
         kioskFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,6 +28,7 @@ public class KioskController {
         data.load();
     }
     public static void openPayment(JList cartList, Float total, JFrame kioskFrame, JFrame paymentFrame){
+//        Builds payment frame
         paymentFrame = new JFrame("PaymentView");
         paymentFrame.setContentPane(new PayView(cartList, total, kioskFrame, paymentFrame).mainPanel);
         paymentFrame.setSize(900, 600);
@@ -35,6 +37,7 @@ public class KioskController {
         kioskFrame.setVisible(false);
     }
     public static void openAdmin(JFrame kioskFrame, JList stockList){
+//        Builds admin frame
         JFrame adminFrame = new JFrame("Admin");
         adminFrame.setContentPane(new AdminView(adminFrame, stockList).mainPanel);
         adminFrame.setSize(900,600);

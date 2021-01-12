@@ -30,11 +30,12 @@ public class AdminView {
 
 
     public AdminView(JFrame adminFrame, JList stockList) {
+//        AdminView Constructor
         adminStockList.setModel(new DefaultListModel());
         popUpFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
         loadFile();
 
+//        Buttons on form
         logOutBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,6 +68,8 @@ public class AdminView {
             }
         });
     }
+
+//    Load the file to be set into the admin view of the products
     private void loadFile(){
         StockModel newStock = new StockModel();
         newStock.load();
@@ -80,6 +83,8 @@ public class AdminView {
         }
         adminStockList.setModel(listModel);
     }
+
+//    Opens the text file if needed
     private void openFile(){
         try {
             File file = new File(filePath);
@@ -90,6 +95,8 @@ public class AdminView {
             e.printStackTrace();
         }
     }
+
+//    What the button runs for the users inputs for adding a product
     public void addProductPopup(){
         JTextField barcodeTF = new JTextField();
         JTextField nameTF = new JTextField();
@@ -119,6 +126,8 @@ public class AdminView {
             popUp.showMessageDialog(popUpFrame, "No product added" , "Canceled", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+//        The part that makes a new stockmodel instance to save a product to
     public void addProduct(String barcode, String name, String price, String stockLevel){
         StockModel newProduct = new StockModel();
         newProduct.load();
@@ -129,8 +138,12 @@ public class AdminView {
         newProduct.setStockLevel(Integer.parseInt(stockLevel));
 
         newProduct.addProduct(newProduct);
+
+//        Calls the savefile function to add new product to file
         saveFile(newProduct);
     }
+
+//    The code that will be writing the file
     public void saveFile(StockModel tempProduct){
         ArrayList<StockModel> tempStock = new ArrayList<StockModel>();
         tempStock = tempProduct.stock;
@@ -166,6 +179,8 @@ public class AdminView {
             e.printStackTrace();
         }
     }
+
+//    What the button will run for the user to edit the details of the product
     public void editProductPopup(){
         int index = adminStockList.getSelectedIndex();
 
@@ -174,6 +189,7 @@ public class AdminView {
 
         StockModel tempNames = loadStock.getProductAt(index);
 
+//        Set the text fields with the products details
         JTextField barcodeTF = new JTextField();
         JTextField nameTF = new JTextField();
         JTextField priceTF = new JTextField();
@@ -208,6 +224,7 @@ public class AdminView {
             popUp.showMessageDialog(popUpFrame, "No product edited" , "Canceled", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+//    Run from button to confirm if the user wants to delete selected item
     public void removeProductPopup(){
         int index = adminStockList.getSelectedIndex();
 
@@ -216,6 +233,7 @@ public class AdminView {
 
         StockModel tempNames = loadStock.getProductAt(index);
 
+//        Set the Jlabels with the selected product
         JLabel barcodeLbl = new JLabel();
         JLabel nameLbl = new JLabel();
         JLabel priceLbl = new JLabel();
@@ -246,6 +264,8 @@ public class AdminView {
             popUp.showMessageDialog(popUpFrame, "Deletion Canceled", "Deletion", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+//    What the button will run to confirm if you want the list to update
     public void textUpdate(){
         int option = popUp.showConfirmDialog(popUpFrame, "Update List", "Update", JOptionPane.INFORMATION_MESSAGE);
         if(option == popUp.OK_OPTION){
@@ -255,6 +275,8 @@ public class AdminView {
             loadFile();
         }
     }
+
+//    Setter methods to edit selected product
     public void editProduct(String barcode, String name, String price, String stockLevel){
         StockModel loadStock = new StockModel();
         loadStock.load();
@@ -269,6 +291,8 @@ public class AdminView {
 
         saveFile(loadStock);
     }
+
+//    Runs the remove funtion
     public void deleteProduct(){
         StockModel loadStock = new StockModel();
         loadStock.load();

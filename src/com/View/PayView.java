@@ -32,6 +32,7 @@ public class PayView {
     public JFrame test;
 
     public PayView(JList cartList, Float tempTotal, JFrame kioskFrame, JFrame paymentFrame){
+//        PayView constructor
         tempCartList = cartList;
         totalLbl.setText(String.format("£" + "%.2f", tempTotal));
 
@@ -43,6 +44,7 @@ public class PayView {
         Date timeTemp = new Date();
         String time = timeFormat.format(timeTemp);
 
+//        PayView buttons
         returnBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,6 +73,8 @@ public class PayView {
     private void createUIComponents() {
         paymentLst = new JList(tempCartList.getModel());
     }
+
+//    Method to check if the cash given is enough
     public void cashCheck(String date, String time){
         JFrame cashPopup = new JFrame();
         cashPopup.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -99,6 +103,8 @@ public class PayView {
                 "Change: " + (String.format("£" + "%.2f",change)));
         updateStock();
     }
+
+//    Bank check to see if the card has been accepted
     public void cardCheck(String date, String time){
         JFrame popUpFrame = new JFrame();
         popUpFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -120,15 +126,19 @@ public class PayView {
             receiptTextArea.setText("Card Declined try again.");
         }
     }
+
+//    Will print out a receipt for the user
     public void printReceipt(){
         JFrame popUpFrame = new JFrame();
         popUpFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         popUp.showMessageDialog(popUpFrame,receiptTextArea.getText(), "Receipt", JOptionPane.INFORMATION_MESSAGE);
     }
+
+//    To auto update the stock levels once an item has been purchased
     public void updateStock(){
         StockModel stockArray = new StockModel();
-
+//        stockArray.load();
 
         DefaultListModel paymentLM = (DefaultListModel) paymentLst.getModel();
 
@@ -148,6 +158,8 @@ public class PayView {
             }
         }
     }
+
+//    Used to save back to the textfile
     public void save(StockModel tempProduct){
         ArrayList<StockModel> tempStock = new ArrayList<StockModel>();
         tempStock = tempProduct.stock;

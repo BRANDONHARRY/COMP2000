@@ -26,12 +26,14 @@ public class KioskView extends JFrame {
     public String filePath = "resources\\stock.txt";
 
     public KioskView(JFrame kioskFrame, JFrame paymentFrame) {
+//        Kiosk constructor
         JList test = new JList();
         stockList.setModel(test.getModel());
 
         cartList.setModel(new DefaultListModel());
         displayStock();
 
+//        Kiosk buttons
         checkoutBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,6 +59,8 @@ public class KioskView extends JFrame {
             }
         });
     }
+
+//        Function to display the stock
     public void displayStock(){
         StockModel newStock = new StockModel();
         newStock.load();
@@ -72,12 +76,14 @@ public class KioskView extends JFrame {
     }
 
     public void cartStock(){
+//        Will add the items into the cart from the selected one
         DefaultListModel cartLM = (DefaultListModel) cartList.getModel();
         String selected = (String) stockList.getSelectedValue();
         cartLM.addElement(selected);
         updatePrice(selected);
     }
 
+//        Will load an item into the cart from inputted barcode
     public void barcodeLoad(){
         DefaultListModel cartLM = (DefaultListModel) cartList.getModel();
         String result = null;
@@ -105,6 +111,8 @@ public class KioskView extends JFrame {
             e.printStackTrace();
         }
     }
+
+//
     public void updatePrice(String item){
         String[] itemArray;
         String priceString;
@@ -120,6 +128,8 @@ public class KioskView extends JFrame {
 
         priceLbl.setText(String.format("£" + "%.2f",total));
     }
+
+//    JOptionPane for the admin login
     public void login(JFrame kioskFrame, JList stockList){
         JFrame popUpFrame = new JFrame();
         popUpFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -149,6 +159,8 @@ public class KioskView extends JFrame {
             loginOP.showMessageDialog(popUpFrame, "Login failed.", "Login", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+//    Accounts funtion to get the username and passwords
     public void accounts(){
         String filePath = "resources\\accounts.txt";
 
