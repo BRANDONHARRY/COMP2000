@@ -65,12 +65,6 @@ public class AdminView {
                 textUpdate();
             }
         });
-        updateBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadFile();
-            }
-        });
     }
     private void loadFile(){
         StockModel newStock = new StockModel();
@@ -203,6 +197,7 @@ public class AdminView {
                 editProduct(barcodeTF.getText(), nameTF.getText(), priceTF.getText(), stockLevelTF.getText());
                 popUp.showMessageDialog(popUpFrame, "Edit Accepted", "Edit", JOptionPane.INFORMATION_MESSAGE);
                 System.out.println("Edit accepted");
+                loadFile();
             }
             else{
                 popUp.showMessageDialog(popUpFrame, "Please enter details into all fields.", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -244,6 +239,7 @@ public class AdminView {
             deleteProduct();
             popUp.showMessageDialog(popUpFrame, "Deletion Completed", "Accepted", JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Deleted item");
+            loadFile();
         }
         else{
             popUp.showMessageDialog(popUpFrame, "Deletion Canceled", "Deletion", JOptionPane.INFORMATION_MESSAGE);
@@ -259,11 +255,11 @@ public class AdminView {
         }
     }
     public void editProduct(String barcode, String name, String price, String stockLevel){
-        int index = adminStockList.getSelectedIndex();
         StockModel loadStock = new StockModel();
         loadStock.load();
 
-        StockModel editStock = loadStock.getProductAt(index);
+        StockModel editStock = loadStock.getProductAt(adminStockList.getSelectedIndex());
+
 
         editStock.setBarcode(barcode);
         editStock.setName(name);
@@ -273,11 +269,10 @@ public class AdminView {
         saveFile(loadStock);
     }
     public void deleteProduct(){
-        int index = adminStockList.getSelectedIndex();
         StockModel loadStock = new StockModel();
         loadStock.load();
 
-        StockModel deleteStock = loadStock.getProductAt(index);
+        StockModel deleteStock = loadStock.getProductAt(adminStockList.getSelectedIndex());
 
         loadStock.removeProduct(deleteStock);
 

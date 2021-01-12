@@ -3,13 +3,9 @@ import com.Controller.KioskController;
 import com.Model.StockModel;
 
 import javax.swing.*;
-import javax.tools.JavaFileManager;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 public class KioskView extends JFrame {
@@ -20,13 +16,14 @@ public class KioskView extends JFrame {
     public JList cartList;
     private JButton checkoutBtn;
     private JTextField barcodeTF;
-    private JButton textBtn;
+    private JButton barcodeAddBtn;
     private JLabel stockLbl;
     private JLabel priceLbl;
     public Float total = 0.00f;
     public JOptionPane loginOP;
     public String username;
     public String password;
+    public String filePath = "resources\\stock.txt";
 
     public KioskView(JFrame kioskFrame, JFrame paymentFrame) {
         cartList.setModel(new DefaultListModel());
@@ -38,7 +35,7 @@ public class KioskView extends JFrame {
                 cartStock();
             }
         });
-        textBtn.addActionListener(new ActionListener() {
+        barcodeAddBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 barcodeLoad();
@@ -81,15 +78,30 @@ public class KioskView extends JFrame {
 
     public void barcodeLoad(){
         DefaultListModel cartLM = (DefaultListModel) cartList.getModel();
-        DefaultListModel stockLM = (DefaultListModel) stockList.getModel();
+        String result = null;
+        String separator = "\\|";
 
-        String text = barcodeTF.getText();
-        Integer number = Integer.parseInt(text);
-        number --;
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+            String line;
+            while ((line = bufferedReader.readLine()) != null){
 
-        String item = stockLM.elementAt(number).toString();
-        cartLM.addElement(item);
-        updatePrice(item);
+                String[] value = line.split(separator);
+
+                if(value[0].equals(barcodeTF.getText())){
+                    result = line;
+                    cartLM.addElement(result);
+                    updatePrice(result);
+                }
+            }
+            bufferedReader.close();
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public void updatePrice(String item){
         String[] itemArray;
